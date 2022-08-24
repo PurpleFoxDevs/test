@@ -223,8 +223,7 @@ app.get("/api/maintainAtt", async(req, res) => {
 	var hour = new Date().getHours();
 	hour*=60;
 	hour+=new Date().getMinutes();
-	if(hour>=450&&hour<=510) {
-		// if(true) {
+	if(hour>=500&&hour<=570) {
 		try {
 
 			let data = await Student.find({_id : id});
@@ -495,9 +494,9 @@ app.get("/api/deleteStudent", async(req, res) => {
 
 // SMS JOB
 
-// ns.scheduleJob({hour: 21, minute: 37}, function(){
-// 	sendSMS();
-// });
+ns.scheduleJob({hour: 10, minute: 0}, function(){
+	sendSMS();
+});
 
 
 const getSMSList = async() => {
@@ -526,12 +525,9 @@ const sendSMS = async() => {
 		try {
 			let name = arr[i]['name'];
 			let admNo = arr[i]['admNo'];
-			const device = i%2==0?"1905":"1906";
-			console.log(device)
 			let number = arr[i]['phone'];
-			console.log(number);
 			let message = `St. Paul's School\nYour ward ${name} is absent today ${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}.`;
-			let url = `https://my.zitasms.com/services/send.php?key=7e38ab973b29aa3eda2590e5f217de76d84f042f&number=${number}&message=${message}&devices=${device}&type=sms&prioritize=0`;
+			let url = `https://my.zitasms.com/services/send.php?key=7e38ab973b29aa3eda2590e5f217de76d84f042f&number=${number}&message=${message}&devices=%5B%221929%7C0%22%2C%221929%7C1%22%5D&type=sms&prioritize=0`;
 			fetch(url)
 			.then(res => res.json())
 			.then(data => console.log(data));
